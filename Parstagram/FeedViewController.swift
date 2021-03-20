@@ -59,7 +59,27 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         return cell
     }
      
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let post = posts[indexPath.row] //Choose a post to add a comment to
+        
+        let comment = PFObject(className: "Comments") //Create a comment object, will be creased in Parse automaticlly
+        comment["text"] = "This is a random comment" //Everything assocaited with comment object
+        comment["post"] = post
+        comment["author"] = PFUser.current()!
+        
+        post.add(comment, forKey: "comments") //Add comment to post
+        
+        //Parse will save post and realize comment needs to be saved as well, unlike Firebase you have to do it yourself
+        post.saveInBackground { (success, error) in
+            if success{
+                print("Comment Saved")
+            }else{
+                print("Error saving comment")
+            }
+        }
+        
+        
+    }
 
     /*
     // MARK: - Navigation
@@ -87,10 +107,5 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         delegate.window?.rootViewController = loginViewController //When logout button is clicked rootViewController will immediately be switched to login button
     }
-    
-    
-    
-    
-    
 
 }
