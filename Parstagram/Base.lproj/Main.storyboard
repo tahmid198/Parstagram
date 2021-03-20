@@ -108,14 +108,14 @@
                                                         <constraint firstAttribute="width" secondItem="LKL-lW-cUd" secondAttribute="height" multiplier="398:399" id="OWL-PS-ddC"/>
                                                     </constraints>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Tamid" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xQR-sN-A0C">
-                                                    <rect key="frame" x="8" y="415" width="56" height="21"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tahmid" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xQR-sN-A0C">
+                                                    <rect key="frame" x="8" y="415" width="60" height="21"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Love doing this" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XkN-tb-Pe1">
-                                                    <rect key="frame" x="72" y="415" width="115" height="20.333333333333314"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Love doing this" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XkN-tb-Pe1">
+                                                    <rect key="frame" x="76" y="415" width="115" height="20.333333333333314"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -130,7 +130,7 @@
                                                 <constraint firstItem="XkN-tb-Pe1" firstAttribute="top" secondItem="LKL-lW-cUd" secondAttribute="bottom" constant="8" id="Xkp-vg-xHg"/>
                                                 <constraint firstAttribute="trailing" secondItem="LKL-lW-cUd" secondAttribute="trailing" constant="8" id="Y5F-hM-y0l"/>
                                                 <constraint firstItem="xQR-sN-A0C" firstAttribute="top" secondItem="LKL-lW-cUd" secondAttribute="bottom" constant="8" id="cxf-EE-EJA"/>
-                                                <constraint firstAttribute="trailing" secondItem="XkN-tb-Pe1" secondAttribute="trailing" constant="8" id="klT-2e-RFZ"/>
+                                                <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="XkN-tb-Pe1" secondAttribute="trailing" constant="8" id="klT-2e-RFZ"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
@@ -139,21 +139,21 @@
                                             <outlet property="usernameLabel" destination="xQR-sN-A0C" id="H0l-Hy-Jc6"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="UUn-bW-zEV">
-                                        <rect key="frame" x="0.0" y="472" width="414" height="37"/>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="CommentCell" id="UUn-bW-zEV" customClass="CommentCell" customModule="Parstagram" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="472" width="414" height="37.333332061767578"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="UUn-bW-zEV" id="C0L-C9-Cdd">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="37"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="37.333332061767578"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tamid" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p1D-cJ-jmp">
-                                                    <rect key="frame" x="16.000000000000004" y="8.0000000000000018" width="49.333333333333343" height="20.666666666666671"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tahmid" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="p1D-cJ-jmp">
+                                                    <rect key="frame" x="16" y="8" width="60" height="21"/>
                                                     <fontDescription key="fontDescription" type="boldSystem" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="This is a comment" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GM0-zL-kc0">
-                                                    <rect key="frame" x="73.333333333333329" y="7.9999999999999982" width="138.33333333333337" height="20.333333333333329"/>
+                                                    <rect key="frame" x="84.000000000000014" y="7.9999999999999982" width="138.33333333333337" height="20.333333333333329"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -170,6 +170,10 @@
                                                 <constraint firstItem="GM0-zL-kc0" firstAttribute="leading" secondItem="p1D-cJ-jmp" secondAttribute="trailing" constant="8" id="oFF-wp-MhG"/>
                                             </constraints>
                                         </tableViewCellContentView>
+                                        <connections>
+                                            <outlet property="commentLabel" destination="GM0-zL-kc0" id="XAS-6m-TuT"/>
+                                            <outlet property="nameLabel" destination="p1D-cJ-jmp" id="RaZ-44-8uU"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
