@@ -19,6 +19,8 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     let commentBar = MessageInputBar()
     var showsCommentBar = false
     var posts = [PFObject]()
+    var selectedPost: PFObject!
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,13 +49,29 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func messageInputBar(_ inputBar: MessageInputBar, didPressSendButtonWith text: String) {
         //Create a comment
+        let comment = PFObject(className: "Comments")
+        comment["text"] = text //Everything assocaited with comment object
+        comment["post"] = selectedPost
+        comment["author"] = PFUser.current()!
+
+        selectedPost.add(comment, forKey: "comments") //Add comment to post
+
+        //Parse will save post and realize comment needs to be saved as well, unlike Firebase you have to do it yourself
+        selectedPost.saveInBackground { (success, error) in
+            if success{
+                print("Comment Saved")
+            }else{
+                print("Error saving comment")
+            }
+        }
+        tableView.reloadData() //So commment appears immedietly 
         
         //Clear and dismiss input bar
         commentBar.inputTextView.text = nil
         
         showsCommentBar = false
         becomeFirstResponder()
-        commentBar.inputTextView.resignFirstResponder()
+        commentBar.inputTextView.resignFirstResponder()//After post button is pressed, beyboard will dismiss
     }
     
     //Places Comment bar
@@ -137,24 +155,9 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
             showsCommentBar = true
             becomeFirstResponder()
             commentBar.inputTextView.becomeFirstResponder() //Raises keyboard
+            
+            selectedPost = post
         }
-        
-//        comment["text"] = "This is a random comment" //Everything assocaited with comment object
-//        comment["post"] = post
-//        comment["author"] = PFUser.current()!
-//
-//        post.add(comment, forKey: "comments") //Add comment to post
-//
-//        //Parse will save post and realize comment needs to be saved as well, unlike Firebase you have to do it yourself
-//        post.saveInBackground { (success, error) in
-//            if success{
-//                print("Comment Saved")
-//            }else{
-//                print("Error saving comment")
-//            }
-//        }
-        
-        
     }
 
     /*
