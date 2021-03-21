@@ -7,27 +7,69 @@
 
 import UIKit
 import Parse
+import AlamofireImage
+import MessageInputBar
 
-class FeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class FeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, MessageInputBarDelegate {
     
 
     @IBOutlet weak var tableView: UITableView!
     
+    //Creates comment bar
+    let commentBar = MessageInputBar()
+    var showsCommentBar = false
     var posts = [PFObject]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        commentBar.inputTextView.placeholder = "Add a comment..."
+        commentBar.sendButton.title = "Post"
+        commentBar.delegate = self
+        
+        
+        
         tableView.delegate = self
         tableView.dataSource = self
 
+        tableView.keyboardDismissMode = .interactive //Dissmisses keyboard
         // Do any additional setup after loading the view.
+        
+        let center = NotificationCenter.default //Handles all notifications
+        center.addObserver(self, selector: #selector(keyboardWillBeHiddden(note:)), name: UIResponder.keyboardWillHideNotification, object: nil) //Grab notificatin center, call this function when the event, keyboard hides, on myself
     }
+    @objc func keyboardWillBeHiddden(note: Notification){
+        //This function gets called when keyboard is hiding
+        commentBar.inputTextView.text = nil
+        showsCommentBar = false
+        becomeFirstResponder()
+    }
+    
+    func messageInputBar(_ inputBar: MessageInputBar, didPressSendButtonWith text: String) {
+        //Create a comment
+        
+        //Clear and dismiss input bar
+        commentBar.inputTextView.text = nil
+        
+        showsCommentBar = false
+        becomeFirstResponder()
+        commentBar.inputTextView.resignFirstResponder()
+    }
+    
+    //Places Comment bar
+    override var inputAccessoryView: UIView? {
+        return commentBar
+    }
+    override var canBecomeFirstResponder: Bool{
+        return showsCommentBar
+    }
+    
+    
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
         let query = PFQuery(className: "Posts")
-        query.includeKeys(["author", "comments", "comments.author"]) 
+        query.includeKeys(["author", "comments", "comments.author"])
         query.limit = 20
         
         query.findObjectsInBackground(){ (posts, error) in
@@ -35,15 +77,14 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
                 self.posts = posts!
                 self.tableView.reloadData()
             }
-            
-        
     }
 }
+    
     //Number or rows
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let post = posts[section]
+        let post = posts[section] 
         let comments = (post["comments"] as? [PFObject]) ?? []
-        return comments.count+1
+        return comments.count+2
     }
     
     //Number of sections
@@ -57,7 +98,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
         let comments = (post["comments"] as? [PFObject]) ?? []
 
         
-        if indexPath.row == 0 { //Postcell is at 0 row
+        if indexPath.row == 0 { //Postcell is at 0 row; this row is for original post
             let cell = tableView.dequeueReusableCell(withIdentifier: "PostCell") as! PostCell
             
             let user = post["author"] as! PFUser
@@ -72,7 +113,7 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
             cell.photoView.af_setImage(withURL: url)
         
             return cell
-        } else{
+        } else if indexPath.row <= comments.count{
             let cell = tableView.dequeueReusableCell(withIdentifier: "CommentCell") as! CommentCell
             
             let comment =  comments[indexPath.row - 1] //Brings you first comment
@@ -81,31 +122,37 @@ class FeedViewController: UIViewController, UITableViewDelegate, UITableViewData
             let user = comment["author"] as! PFUser
             cell.nameLabel.text = user.username
             
-            
-            
-            
             return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "addCommentCell")!
+            return cell //Shows addcomment line in comment sections of app
         }
     }
      
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let post = posts[indexPath.row] //Choose a post to add a comment to
+        let post = posts[indexPath.section] //Choose a post to add a comment to
+        let comments = (post["comments"] as? [PFObject]) ?? [] //Create a comment object, will be create in Parse automaticlly
         
-        let comment = PFObject(className: "Comments") //Create a comment object, will be creased in Parse automaticlly
-        comment["text"] = "This is a random comment" //Everything assocaited with comment object
-        comment["post"] = post
-        comment["author"] = PFUser.current()!
-        
-        post.add(comment, forKey: "comments") //Add comment to post
-        
-        //Parse will save post and realize comment needs to be saved as well, unlike Firebase you have to do it yourself
-        post.saveInBackground { (success, error) in
-            if success{
-                print("Comment Saved")
-            }else{
-                print("Error saving comment")
-            }
+        if indexPath.row == comments.count + 1{
+            showsCommentBar = true
+            becomeFirstResponder()
+            commentBar.inputTextView.becomeFirstResponder() //Raises keyboard
         }
+        
+//        comment["text"] = "This is a random comment" //Everything assocaited with comment object
+//        comment["post"] = post
+//        comment["author"] = PFUser.current()!
+//
+//        post.add(comment, forKey: "comments") //Add comment to post
+//
+//        //Parse will save post and realize comment needs to be saved as well, unlike Firebase you have to do it yourself
+//        post.saveInBackground { (success, error) in
+//            if success{
+//                print("Comment Saved")
+//            }else{
+//                print("Error saving comment")
+//            }
+//        }
         
         
     }
